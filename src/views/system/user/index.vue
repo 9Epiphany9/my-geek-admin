@@ -32,15 +32,33 @@ import { getUserList } from '@/api/modules/user'
 defineOptions({ name: 'User' })
 
 // 表格配置 (以后写页面主要就是写这个数组)
+// src/views/system/user/index.vue
 const columns = [
   { type: 'selection', fixed: 'left', width: 80 },
   { type: 'index', label: '#', width: 80 },
-  { prop: 'username', label: '用户姓名', width: 120 },
+  {
+    prop: 'username',
+    label: '用户姓名',
+    width: 120,
+    // ✨ 新增：告诉 ProTable，这一列要搜索，用 input 框搜
+    search: { el: 'input' },
+  },
   { prop: 'gender', label: '性别', width: 100 },
   { prop: 'age', label: '年龄', width: 100 },
   { prop: 'email', label: '邮箱' },
-  { prop: 'status', label: '用户状态', width: 120 }, // 这里会匹配到 slot name="status"
-  { prop: 'operation', label: '操作', fixed: 'right', width: 180 }, // 这里匹配 slot name="operation"
+  {
+    prop: 'status',
+    label: '用户状态',
+    width: 120,
+    // ✨ 新增：告诉 ProTable，这一列要搜索，用 select 下拉框搜
+    search: { el: 'select' },
+    // 后面我们会讲怎么给 select 传 options，现在先留空
+    enum: [
+      { label: '启用', value: 1 },
+      { label: '禁用', value: 0 },
+    ],
+  },
+  { prop: 'operation', label: '操作', fixed: 'right', width: 180 },
 ]
 </script>
 

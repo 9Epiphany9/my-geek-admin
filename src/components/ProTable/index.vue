@@ -1,6 +1,6 @@
 <template>
   <div class="table-box">
-    <div class="search-box" v-if="searchParam"></div>
+    <SearchForm :columns="columns" :searchParam="searchParam" :search="search" :reset="reset" />
 
     <div class="table-header">
       <div class="header-button-lf">
@@ -54,7 +54,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useTable } from '@/hooks/useTable'
-
+import SearchForm from '@/components/SearchForm/index.vue' // 引入组件
 // 定义 props
 interface ProTableProps {
   columns: any[] // 列配置
@@ -69,8 +69,10 @@ const {
   tableData,
   pageable,
   loading,
-  searchParam,
+  searchParam, // useTable 里已经定义好了这个对象
   getTableList,
+  search, // useTable 里已经写好了搜索逻辑 (页码归1 -> 调接口)
+  reset, // useTable 里已经写好了重置逻辑 (清空对象 -> 调接口)
   handleSizeChange,
   handleCurrentChange,
 } = useTable(props.requestApi, props.initParam)
