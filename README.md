@@ -1,48 +1,12 @@
-# my-admin-study
+**Current Progress (Stage 1-9 MVP):**
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-pnpm dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+- **Infrastructure**: Vite + Vue3 + TS + Pinia + Element Plus 环境搭建完成。
+- **Auth**: 完成登录全流程（Axios 拦截器、Token 持久化、Mock 登录接口）。
+- **Layout**: 实现经典纵向布局，包含递归动态菜单、面包屑导航、Header 用户信息。
+- **State Management**:
+  - 使用 Pinia 实现侧边栏折叠交互。
+  - 使用 Pinia + KeepAlive 实现 Tabs 标签页及页面缓存功能。
+- **Core Component (ProTable MVP)**:
+  - 封装 `useTable` Hook 处理分页、Loading 和数据请求逻辑。
+  - 封装 `ProTable` 组件实现配置化表格渲染。
+  - 解决 reactive 响应式丢失问题，实现作用域插槽透传。
