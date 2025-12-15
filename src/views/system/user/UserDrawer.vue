@@ -12,6 +12,20 @@
       :rules="rules"
       :model="drawerProps.row"
     >
+      <el-form-item label="用户头像" prop="avatar">
+        <UploadImg
+          v-model:imageUrl="drawerProps.row!.avatar"
+          width="135px"
+          height="135px"
+          :file-size="3"
+        >
+          <template #empty>
+            <el-icon><Avatar /></el-icon>
+            <span>请上传头像</span>
+          </template>
+        </UploadImg>
+      </el-form-item>
+
       <el-form-item label="用户姓名" prop="username">
         <el-input
           v-model="drawerProps.row!.username"
@@ -47,8 +61,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { ElMessage, FormInstance } from 'element-plus'
-import { addUser, editUser } from '@/api/modules/user'
-
+import UploadImg from '@/components/Upload/Img.vue'
 // 定义表单校验规则
 const rules = reactive({
   username: [{ required: true, message: '请填写用户姓名' }],

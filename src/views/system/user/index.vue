@@ -12,9 +12,32 @@
       </template>
 
       <template #status="scope">
-        <el-tag :type="scope.row.status === 1 ? 'success' : 'danger'">
-          {{ scope.row.status === 1 ? '启用' : '禁用' }}
-        </el-tag>
+        <el-switch
+          v-model="scope.row.status"
+          :active-value="1"
+          :inactive-value="0"
+          active-text="启用"
+          inactive-text="禁用"
+          inline-prompt
+          :before-change="() => switchStatus(scope.row)"
+          :loading="scope.row.loading"
+        />
+      </template>
+
+      <template #avatar="scope">
+        <el-image
+          style="width: 50px; height: 50px; border-radius: 50%"
+          :src="scope.row.avatar"
+          :preview-src-list="[scope.row.avatar]"
+          preview-teleported
+          fit="cover"
+        >
+          <template #error>
+            <div class="image-slot">
+              <el-icon><Picture /></el-icon>
+            </div>
+          </template>
+        </el-image>
       </template>
 
       <template #operation="scope">
@@ -32,7 +55,7 @@
 
 <script setup lang="ts">
 import ProTable from '@/components/ProTable/index.vue'
-import { getUserList, deleteUser, addUser, editUser } from '@/api/modules/user'
+import { getUserList, deleteUser, addUser, editUser, changeUserStatus } from '@/api/modules/user'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import 'element-plus/es/components/message-box/style/css'
@@ -44,6 +67,7 @@ import UserDrawer from './UserDrawer.vue' // 引入刚才写的组件
 const columns = [
   { type: 'selection', fixed: 'left', width: 80 },
   { type: 'index', label: '#', width: 80 },
+  { prop: 'avatar', label: '头像', width: 80 },
   {
     prop: 'username',
     label: '用户姓名',
@@ -111,6 +135,41 @@ const handleDelete = async (row: any) => {
     // --- 如果点了取消，会走到这里 ---
     console.log('用户取消了操作', error)
   }
+}
+// 切换用户状态
+const switchStatus = (row: any) => {
+  // 1. 立即开启 Loading 动画
+  // (注意：Mock 数据里没有 loading 字段，Vue3 会自动把它变成响应式的，直接用就行)
+  row.loading = true
+
+  // 计算目标值（现在的反面）
+  const newStatus = row.status === 1 ? 0 : 1
+
+  // 2. 返回一个 Promise，这是 before-change 要求的
+  return new Promise<boolean>(async (resolve, reject) => {
+    try {
+      // 3. 调用 API
+      await changeUserStatus({ id: row.id, status: newStatus })
+
+      ElMessage.success('状态修改成功')
+
+      // 4. 【关键一步】虽然返回 true 会让 switch 自动变，
+      // 但为了保险，我们手动把 row.status 改过来，防止 Vue 响应式滞后
+      // (这一步其实是双保险)
+      // row.status = newStatus; // 可选，Element Plus 通常会自己处理
+
+      resolve(true) // 告诉 Switch：可以切换了
+    } catch (error) {
+      // 失败了，告诉 Switch：别动
+      reject()
+    } finally {
+      // 5. 无论成功失败，关闭 Loading
+      // 加个小延迟，让动画稍微展示一下，避免闪烁太快
+      setTimeout(() => {
+        row.loading = false
+      }, 300)
+    }
+  })
 }
 </script>
 

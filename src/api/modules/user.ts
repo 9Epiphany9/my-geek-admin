@@ -2,10 +2,10 @@
 
 // 1. 定义一个“内存数据库” (注意：这里用 let，因为我们要修改它)
 let userList = [
-  { id: '1', username: 'Geeker', gender: 1, age: 18, email: 'geek@163.com', status: 1 },
-  { id: '2', username: 'Spicy', gender: 2, age: 22, email: 'spicy@qq.com', status: 0 },
-  { id: '3', username: 'Admin', gender: 1, age: 30, email: 'admin@qq.com', status: 1 },
-  { id: '4', username: 'User001', gender: 2, age: 25, email: 'u001@qq.com', status: 0 },
+  { id: '1', username: 'Geeker', gender: 1, age: 18, email: 'geek@163.com', status: 1, avatar: '' },
+  { id: '2', username: 'Spicy', gender: 2, age: 22, email: 'spicy@qq.com', status: 0, avatar: '' },
+  { id: '3', username: 'Admin', gender: 1, age: 30, email: 'admin@qq.com', status: 1, avatar: '' },
+  { id: '4', username: 'User001', gender: 2, age: 25, email: 'u001@qq.com', status: 0, avatar: '' },
 ]
 
 // 生成随机ID的辅助函数
@@ -94,5 +94,21 @@ export const deleteUser = (params: { id: string }) => {
       console.log('【Mock】删除成功，剩余总数:', userList.length)
       resolve({ code: 200, msg: '删除成功' })
     }, 500)
+  })
+}
+
+/**
+ * @name 修改用户状态
+ */
+export const changeUserStatus = (params: { id: string; status: number }) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const index = userList.findIndex((item) => item.id === params.id)
+      if (index !== -1) {
+        userList[index].status = params.status
+      }
+      console.log(`【Mock】用户 ${params.id} 状态已更新为: ${params.status}`)
+      resolve({ code: 200, msg: '状态修改成功' })
+    }, 100)
   })
 }
