@@ -1,47 +1,47 @@
-<!-- eslint-disable vue/no-unused-vars -->
-<script setup lang="ts">
-import ProTable from '@/components/ProTable/index.vue'
-import { getRoleList } from '@/api/modules/role'
-
-defineOptions({ name: 'Role' })
-
-// 表格配置 (以后写页面主要就是写这个数组)
-const columns = [
-  { type: 'index', label: '#', width: 80 },
-  { prop: 'roleName', label: '角色名称' },
-  { prop: 'desc', label: '角色描述' },
-  // 重点：遇到需要自定义样式的列（比如操作栏），起个名字（slot name）
-  { prop: 'operation', label: '操作', width: 200 },
-]
-</script>
-
 <template>
   <div class="table-content">
-    <ProTable ref="proTableRef" :columns="columns" :requestApi="getRoleList">
+    <ProTable :columns="columns" :requestApi="getRoleList">
       <template #tableHeader>
-        <el-button type="primary" icon="CirclePlus">新增身份</el-button>
-      </template>
-
-      <template #status="scope">
-        <el-tag :type="scope.row.status === 1 ? 'success' : 'danger'">
-          {{ scope.row.status === 1 ? '启用' : '禁用' }}
-        </el-tag>
+        <el-button type="primary" icon="CirclePlus">新增角色</el-button>
       </template>
 
       <template #operation="scope">
-        <el-button type="primary" link>编辑</el-button>
-        <el-button type="danger" link>删除</el-button>
-        <el-button link @click="console.log(scope.row)">查看详情</el-button>
+        <el-button type="primary" link icon="User" @click="openDrawer(scope.row)"
+          >菜单权限</el-button
+        >
+        <el-button type="primary" link icon="Edit">编辑</el-button>
+        <el-button type="danger" link icon="Delete">删除</el-button>
       </template>
     </ProTable>
+
+    <RoleDrawer ref="drawerRef" />
   </div>
 </template>
 
-<style>
+<script setup lang="ts">
+import { ref } from 'vue'
+import ProTable from '@/components/ProTable/index.vue'
+import { getRoleList } from '@/api/modules/role'
+import RoleDrawer from './RoleDrawer.vue' // 👈 下一步创建
+
+const drawerRef = ref()
+
+const columns = [
+  { type: 'index', label: '#', width: 80 },
+  { prop: 'roleName', label: '角色名称', search: { el: 'input' } },
+  { prop: 'status', label: '状态', width: 120 }, // 偷懒先不写 switch 了
+  { prop: 'remark', label: '备注' },
+  { prop: 'operation', label: '操作', fixed: 'right', width: 280 },
+]
+
+const openDrawer = (row: any) => {
+  drawerRef.value?.acceptParams(row)
+}
+</script>
+<style scoped>
 .table-content {
   height: 100%;
-  background: #fff;
   padding: 20px;
-  box-sizing: border-box;
+  background: #fff;
 }
 </style>
