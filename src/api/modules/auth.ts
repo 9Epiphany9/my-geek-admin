@@ -67,3 +67,16 @@ export const getAuthMenuListApi = () => {
     ],
   })
 }
+
+// 在之前的菜单接口里，或者单独的 userInfo 接口里
+export const getUserPermissionApi = () => {
+  // 假设当前用户是 admin，他拥有所有权限
+  return Promise.resolve({
+    data: [
+      'user:add', // 能添加用户
+      'user:edit', // 能编辑用户
+      'user:delete', // 能删除用户
+      'user:export', // 能导出
+    ],
+  })
+}

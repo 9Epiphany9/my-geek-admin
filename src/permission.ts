@@ -33,7 +33,8 @@ router.beforeEach(async (to, from, next) => {
     try {
       // 申请加载路由
       await initDynamicRouter(router, authStore)
-
+      // 加载按钮权限 (这就存到 Store 里了)
+      await authStore.getAuthButtonList()
       // 关键：动态添加路由后，必须用 ...to replace: true 再跳一次
       // 否则第一次访问可能会白屏
       return next({ ...to, replace: true })

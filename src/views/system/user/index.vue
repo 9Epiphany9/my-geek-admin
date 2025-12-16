@@ -41,12 +41,25 @@
       </template>
 
       <template #operation="scope">
-        <el-button type="primary" link icon="Edit" @click="openDrawer('编辑', scope.row)"
-          >编辑</el-button
+        <el-button
+          type="primary"
+          link
+          icon="Edit"
+          @click="openDrawer('编辑', scope.row)"
+          v-auth="'user:edit'"
         >
-        <el-button type="danger" link icon="Delete" @click="handleDelete(scope.row)"
-          >删除</el-button
+          编辑
+        </el-button>
+
+        <el-button
+          type="danger"
+          link
+          icon="Delete"
+          @click="handleDelete(scope.row)"
+          v-auth="'user:delete'"
         >
+          删除
+        </el-button>
       </template>
     </ProTable>
     <UserDrawer ref="drawerRef" />
