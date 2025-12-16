@@ -1,0 +1,24 @@
+/* src/styles/common.scss */
+
+/* 核心代码：让 body 的背景和字体颜色跟随 Element 的变量变化 */
+body {
+  /* var(--el-bg-color) 是 Element Plus 提供的变量
+      亮色模式下 = #ffffff
+      暗色模式下 = #141414
+    */
+  background-color: var(--el-bg-color);
+  color: var(--el-text-color-primary);
+  margin: 0;
+  font-family:
+    'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑',
+    Arial, sans-serif;
+}
+
+/* 如果你在页面里写死了 background: #fff，暗黑模式是不生效的！
+  必须改成使用变量。
+  例如：卡片的背景色推荐用 overlay
+*/
+.card {
+  background-color: var(--el-bg-color-overlay) !important;
+  /* 或者 var(--el-bg-color) */
+}

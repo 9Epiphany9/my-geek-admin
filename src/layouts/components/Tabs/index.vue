@@ -74,7 +74,7 @@ const removeTab = (fullPath: string | number) => {
 
 <style scoped>
 .tabs-box {
-  background-color: #ffffff;
+  background-color: var(--el-bg-color);
   padding: 0 10px;
   /* 稍微把 Tab 往下压一点，好看点 */
   /* border-bottom: 1px solid #e4e7ed; */

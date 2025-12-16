@@ -27,8 +27,9 @@
         </div>
 
         <div class="header-right">
+          <ToolBarRight />
           <span class="username">Admin</span>
-          <el-button size="small" type="danger" link @click="logout">退出登录</el-button>
+          <el-button size="small" type="danger" link @click="logout"> 退出登录 </el-button>
         </div>
       </el-header>
       <Tabs></Tabs>
@@ -50,6 +51,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/modules/user'
 import Tabs from './components/Tabs/index.vue'
+import ToolBarRight from './components/Header/ToolBarRight.vue'
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
@@ -127,32 +129,33 @@ const tabsStore = useTabsStore()
   border-bottom: 1px solid #282a35;
 }
 .layout-header {
-  background-color: #ffffff;
+  background-color: var(--el-bg-color);
   border-bottom: 1px solid #e4e7ed;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* 左右两边撑开 */
+  justify-content: space-between; /* 左边和右边区域撑开 */
   padding: 0 20px;
-  height: 55px; /* 固定高度 */
+  height: 55px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
+  gap: 16px; /* CollapseIcon 和 Breadcrumb 之间间距 */
 }
 
 .header-right {
   display: flex;
   align-items: center;
+  gap: 16px; /* ToolBarRight 内部图标、用户名、退出按钮之间的间距 */
 }
 
 .username {
-  margin-right: 15px;
   font-size: 14px;
   color: #333;
 }
 .layout-main {
-  background-color: #f0f2f5; /* 给个灰色背景，显出层次感 */
+  background-color: var(--el-bg-color); /* 给个灰色背景，显出层次感 */
   padding: 10px;
 }
 
