@@ -15,7 +15,7 @@
         :collapse="globalStore.isCollapse"
         :collapse-transition="false"
       >
-        <SubMenu :menuList="menuList" />
+        <SubMenu :menuList="authStore.showMenuListGet" />
       </el-menu>
     </el-aside>
 
@@ -69,40 +69,42 @@ const globalStore = useGlobalStore() // 实例化 Store
 
 import SubMenu from './components/Menu/SubMenu.vue'
 
-const menuList = [
-  {
-    path: '/home',
-    meta: {
-      title: '首页',
-      icon: 'HomeFilled',
-    },
-  },
-  {
-    path: '/system',
-    redirect: '/system/user',
-    meta: {
-      title: '系统管理',
-      icon: 'Setting',
-    },
-    // 注意：这里有了 children，说明它有子菜单
-    children: [
-      {
-        path: '/system/user',
-        meta: {
-          title: '用户管理',
-          icon: 'User',
-        },
-      },
-      {
-        path: '/system/role',
-        meta: {
-          title: '角色管理',
-          icon: 'Avatar',
-        },
-      },
-    ],
-  },
-]
+// const menuList = [
+//   {
+//     path: '/home',
+//     meta: {
+//       title: '首页',
+//       icon: 'HomeFilled',
+//     },
+//   },
+//   {
+//     path: '/system',
+//     redirect: '/system/user',
+//     meta: {
+//       title: '系统管理',
+//       icon: 'Setting',
+//     },
+//     // 注意：这里有了 children，说明它有子菜单
+//     children: [
+//       {
+//         path: '/system/user',
+//         meta: {
+//           title: '用户管理',
+//           icon: 'User',
+//         },
+//       },
+//       {
+//         path: '/system/role',
+//         meta: {
+//           title: '角色管理',
+//           icon: 'Avatar',
+//         },
+//       },
+//     ],
+//   },
+// ]
+import { useAuthStore } from '@/stores/modules/auth' // 引入 AuthStore
+const authStore = useAuthStore()
 
 // 面包屑导航
 import Breadcrumb from './components/Header/Breadcrumb.vue'
