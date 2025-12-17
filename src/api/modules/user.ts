@@ -4,7 +4,15 @@
 let userList = [
   { id: '1', username: 'Geeker', gender: 1, age: 18, email: 'geek@163.com', status: 1, avatar: '' },
   { id: '2', username: 'Spicy', gender: 2, age: 22, email: 'spicy@qq.com', status: 0, avatar: '' },
-  { id: '3', username: 'Admin', gender: 1, age: 30, email: 'admin@qq.com', status: 1, avatar: '' },
+  {
+    id: '3',
+    username: 'Admin',
+    gender: 1,
+    age: 30,
+    email: 'admin@qq.com',
+    status: 1,
+    avatar: '/01_1.jpg',
+  },
   { id: '4', username: 'User001', gender: 2, age: 25, email: 'u001@qq.com', status: 0, avatar: '' },
 ]
 
@@ -110,5 +118,15 @@ export const changeUserStatus = (params: { id: string; status: number }) => {
       console.log(`【Mock】用户 ${params.id} 状态已更新为: ${params.status}`)
       resolve({ code: 200, msg: '状态修改成功' })
     }, 100)
+  })
+}
+
+// 模拟修改密码接口
+export const changePasswordApi = (params: any) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log('修改密码参数：', params)
+      resolve({ code: 200, msg: '密码修改成功' })
+    }, 500) // 模拟网络延迟
   })
 }

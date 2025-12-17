@@ -8,6 +8,9 @@
         :inactive-icon="Moon"
         @change="switchDark"
       />
+      <span class="username">Admin</span>
+
+      <Avatar />
     </div>
   </div>
 </template>
@@ -16,18 +19,28 @@
 import { useGlobalStore } from '@/stores/modules/global'
 import { useTheme } from '@/hooks/useTheme'
 import { storeToRefs } from 'pinia'
-import { Sunny, Moon } from '@element-plus/icons-vue'
-
+import Avatar from '@/layouts/components/Header/components/Avatar.vue'
 const globalStore = useGlobalStore()
 const { isDark } = storeToRefs(globalStore)
 const { switchDark } = useTheme()
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* 稍微调整下图标大小 */
-.header-icon {
+.tool-bar-ri {
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  justify-content: center;
+  padding-right: 25px;
+  .header-icon {
+    display: flex;
+    align-items: center;
+    // margin-right: 20px; // 可以稍微调整间距
+  }
+  .username {
+    margin: 0 20px;
+    font-size: 15px;
+    color: var(--el-text-color-primary); // 记得用变量
+  }
 }
 </style>

@@ -29,7 +29,6 @@
         <div class="header-right">
           <ToolBarRight />
           <span class="username">Admin</span>
-          <el-button size="small" type="danger" link @click="logout"> 退出登录 </el-button>
         </div>
       </el-header>
       <Tabs></Tabs>
@@ -48,21 +47,15 @@
 
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/modules/user'
+import { useRoute } from 'vue-router'
+
 import Tabs from './components/Tabs/index.vue'
 import ToolBarRight from './components/Header/ToolBarRight.vue'
 const route = useRoute()
-const router = useRouter()
-const userStore = useUserStore()
 
 // 自动高亮当前菜单
 const activeMenu = computed(() => route.path)
 
-const logout = () => {
-  userStore.setToken('') // 清空 Token
-  router.push('/login') // 回登录页
-}
 // 侧边栏
 import CollapseIcon from './components/Header/CollapseIcon.vue' // 引入折叠组件
 import { useGlobalStore } from '@/stores/modules/global' // 引入 Store
