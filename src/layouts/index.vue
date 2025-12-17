@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/modules/user'
 import Tabs from './components/Tabs/index.vue'
@@ -114,6 +114,14 @@ import Breadcrumb from './components/Header/Breadcrumb.vue'
 // 持久化存储
 import { useTabsStore } from '@/stores/modules/tabs'
 const tabsStore = useTabsStore()
+
+import { useWatermark } from '@/hooks/useWatermark'
+const { setWatermark } = useWatermark()
+onMounted(() => {
+  // 这里显示的文字通常是当前登录的 "用户名" 或 "真实姓名"
+  // 你可以从 UserStore 里拿，这里先写死测试
+  setWatermark('Geeker-Admin 内部数据')
+})
 </script>
 
 <style scoped>
