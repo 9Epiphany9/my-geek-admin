@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { User, Lock, CircleClose, UserFilled } from '@element-plus/icons-vue'
 import type { FormInstance } from 'element-plus'
 import { loginApi } from '@/api/modules/login'
 import { useUserStore } from '@/stores/modules/user'
 import { useRouter } from 'vue-router'
+import { UserFilled, CircleClose, User, Lock } from '@element-plus/icons-vue'
 const router = useRouter()
 const userStore = useUserStore()
 //  登录校验

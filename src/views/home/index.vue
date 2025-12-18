@@ -15,6 +15,14 @@
       </div>
     </div>
   </div>
+
+  <div class="card">
+    <span v-copy="copyText" style="cursor: pointer; color: blue; margin-right: 20px">
+      点击复制我：{{ copyText }}
+    </span>
+
+    <el-button type="primary" v-debounce="handleBtnClick"> 防抖按钮 (疯狂点我试试) </el-button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -72,6 +80,14 @@ onMounted(() => {
   // 3. 调用我们封装的 Hook
   useEcharts(myChart, option)
 })
+
+import { ElMessage } from 'element-plus'
+
+const copyText = ref('Geeker-Admin 牛逼')
+
+const handleBtnClick = () => {
+  ElMessage.warning('我被点击了！(500ms内只能触发一次)')
+}
 </script>
 
 <style scoped lang="scss">

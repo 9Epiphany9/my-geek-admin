@@ -1,14 +1,16 @@
 import auth from './modules/auth'
+import copy from './modules/copy' // ✨ 新增
+import debounce from './modules/debounce' // ✨ 新增
 
 const directivesList: any = {
-  // key 是指令名，value 是指令配置
   auth,
+  copy, // ✨
+  debounce, // ✨
 }
 
 const directives = {
   install: function (app) {
     Object.keys(directivesList).forEach((key) => {
-      // 注册指令，名称是 v-auth
       app.directive(key, directivesList[key])
     })
   },
