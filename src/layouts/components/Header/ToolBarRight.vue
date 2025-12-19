@@ -20,6 +20,7 @@ import { useGlobalStore } from '@/stores/modules/global'
 import { useTheme } from '@/hooks/useTheme'
 import { storeToRefs } from 'pinia'
 import Avatar from '@/layouts/components/Header/components/Avatar.vue'
+import { Moon, Sunny } from '@element-plus/icons-vue'
 const globalStore = useGlobalStore()
 const { isDark } = storeToRefs(globalStore)
 const { switchDark } = useTheme()

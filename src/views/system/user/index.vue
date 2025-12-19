@@ -73,7 +73,9 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import 'element-plus/es/components/message-box/style/css'
 import 'element-plus/es/components/message/style/css'
-defineOptions({ name: 'User' })
+defineOptions({
+  name: 'User',
+})
 import UserDrawer from './UserDrawer.vue' // 引入刚才写的组件
 // 表格配置 (以后写页面主要就是写这个数组)
 // src/views/system/user/index.vue

@@ -36,7 +36,7 @@
         <router-view v-slot="{ Component, route }">
           <transition name="fade-transform" mode="out-in">
             <keep-alive :include="tabsStore.keepAliveName">
-              <component :is="Component" :key="route.fullPath" />
+              <component :is="Component" :key="route.fullPath" v-if="!route.meta.isLink" />
             </keep-alive>
           </transition>
         </router-view>

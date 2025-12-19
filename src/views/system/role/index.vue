@@ -37,6 +37,9 @@ const columns = [
 const openDrawer = (row: any) => {
   drawerRef.value?.acceptParams(row)
 }
+defineOptions({
+  name: 'Role',
+})
 </script>
 <style scoped>
 .table-content {

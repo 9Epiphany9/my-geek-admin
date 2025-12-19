@@ -34,5 +34,17 @@ export const useTabsStore = defineStore('tabs', () => {
     return tabsList.value.map((item) => item.name)
   })
 
-  return { tabsList, addTab, removeTab, keepAliveName }
+  // 关闭多个标签 (保留首页 + 选中的那个)
+  function closeMultipleTab(tabsMenuValue?: string) {
+    tabsList.value = tabsList.value.filter((item) => {
+      return item.path === '/home' || item.path === tabsMenuValue
+    })
+  }
+
+  //关闭所有标签 (只留首页)
+  function closeMaximize() {
+    tabsList.value = tabsList.value.filter((item) => item.path === '/home')
+  }
+
+  return { tabsList, addTab, removeTab, keepAliveName, closeMultipleTab, closeMaximize }
 })
