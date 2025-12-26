@@ -62,6 +62,25 @@ export const getAuthMenuListApi = () => {
               isKeepAlive: true,
             },
           },
+          // 在 children 里加一个
+          {
+            path: '/system/log',
+            name: 'SystemLog',
+            component: '/system/log/index', // 确保文件路径对
+            meta: {
+              title: '系统日志',
+              icon: 'Document',
+            },
+          },
+          {
+            path: '/demos/log',
+            name: 'SystemLogDemo',
+            component: '/demos/virtual-scroll-raw', // 确保文件路径对
+            meta: {
+              title: '系统日志demo',
+              icon: 'Document',
+            },
+          },
         ],
       },
     ],

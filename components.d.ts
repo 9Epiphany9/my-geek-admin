@@ -45,6 +45,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Img: typeof import('./src/components/Upload/Img.vue')['default']
+    MyVirtualScroll: typeof import('./src/components/demo/MyVirtualScroll.vue')['default']
     Protable: typeof import('./src/components/Protable/index.vue')['default']
     ProTable: typeof import('./src/components/ProTable/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
