@@ -1,132 +1,46 @@
-//import { User } from "@/api/interface"; // 如果没有定义类型，可以用 any，但建议慢慢规范
+import { service } from '@/api/index'
 
-// 1. 定义一个“内存数据库” (注意：这里用 let，因为我们要修改它)
-let userList = [
-  { id: '1', username: 'Geeker', gender: 1, age: 18, email: 'geek@163.com', status: 1, avatar: '' },
-  { id: '2', username: 'Spicy', gender: 2, age: 22, email: 'spicy@qq.com', status: 0, avatar: '' },
-  {
-    id: '3',
-    username: 'Admin',
-    gender: 1,
-    age: 30,
-    email: 'admin@qq.com',
-    status: 1,
-    avatar: '/01_1.jpg',
-  },
-  { id: '4', username: 'User001', gender: 2, age: 25, email: 'u001@qq.com', status: 0, avatar: '' },
-]
-
-// 生成随机ID的辅助函数
-const generateId = () => Math.floor(Math.random() * 100000).toString()
-
-// --- 接口定义 ---
-
-/**
- * @name 获取用户列表 (查)
- * 支持分页、搜索
- */
-export const getUserList = (params: any) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // 1. 先筛选 (Search)
-      let result = userList
-      if (params.username) {
-        result = result.filter((item) =>
-          item.username.toLowerCase().includes(params.username.toLowerCase()),
-        )
-      }
-      if (params.status !== undefined && params.status !== '') {
-        result = result.filter((item) => item.status === Number(params.status))
-      }
-
-      // 2. 再分页 (Pagination)
-      const pageNum = params.pageNum || 1
-      const pageSize = params.pageSize || 10
-      const total = result.length
-      const pageData = result.slice((pageNum - 1) * pageSize, pageNum * pageSize)
-
-      resolve({
-        data: {
-          list: pageData,
-          total: total,
-        },
-      })
-    }, 300)
-  })
+export interface User {
+  id: string
+  username: string
+  gender: number
+  age: number
+  email: string
+  status: number
+  avatar: string
 }
 
-/**
- * @name 新增用户 (增)
- */
-export const addUser = (params: any) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const newUser = {
-        id: generateId(),
-        ...params,
-        status: params.status || 1, // 默认启用
-      }
-      // 真的往数组里加数据！
-      userList.unshift(newUser)
-      console.log('【Mock】新增成功，当前总数:', userList.length)
-      resolve({ code: 200, msg: '新增成功' })
-    }, 500)
-  })
+export interface GetUserListParams {
+  pageNum?: number
+  pageSize?: number
+  username?: string
+  status?: number | ''
 }
 
-/**
- * @name 编辑用户 (改)
- */
-export const editUser = (params: any) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // 找到要改的那个人，替换属性
-      const index = userList.findIndex((item) => item.id === params.id)
-      if (index !== -1) {
-        userList[index] = { ...userList[index], ...params }
-      }
-      console.log('【Mock】编辑成功:', userList[index])
-      resolve({ code: 200, msg: '编辑成功' })
-    }, 500)
-  })
+export interface Paginated<T> {
+  list: T[]
+  total: number
 }
 
-/**
- * @name 删除用户 (删)
- */
-export const deleteUser = (params: { id: string }) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // 真的从数组里剔除！
-      userList = userList.filter((item) => item.id !== params.id)
-      console.log('【Mock】删除成功，剩余总数:', userList.length)
-      resolve({ code: 200, msg: '删除成功' })
-    }, 500)
-  })
-}
+// 查询列表（分页 + 搜索）
+export const getUserList = (params: GetUserListParams) =>
+  service.get<Paginated<User>>('/system/user/list', { params })
 
-/**
- * @name 修改用户状态
- */
-export const changeUserStatus = (params: { id: string; status: number }) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const index = userList.findIndex((item) => item.id === params.id)
-      if (index !== -1) {
-        userList[index].status = params.status
-      }
-      console.log(`【Mock】用户 ${params.id} 状态已更新为: ${params.status}`)
-      resolve({ code: 200, msg: '状态修改成功' })
-    }, 100)
-  })
-}
+// 新增用户
+export const addUser = (data: Omit<User, 'id'>) => service.post<boolean>('/system/user/add', data)
 
-// 模拟修改密码接口
-export const changePasswordApi = (params: any) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      console.log('修改密码参数：', params)
-      resolve({ code: 200, msg: '密码修改成功' })
-    }, 500) // 模拟网络延迟
-  })
-}
+// 编辑用户
+export const editUser = (data: Partial<User> & { id: string }) =>
+  service.post<boolean>('/system/user/edit', data)
+
+// 删除用户
+export const deleteUser = (data: { id: string }) =>
+  service.post<boolean>('/system/user/delete', data)
+
+// 修改状态
+export const changeUserStatus = (data: { id: string; status: number }) =>
+  service.post<boolean>('/system/user/status', data)
+
+// 修改密码
+export const changePasswordApi = (data: { oldPassword: string; newPassword: string }) =>
+  service.post<boolean>('/system/user/password', data)

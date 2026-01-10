@@ -75,8 +75,8 @@ export const useTable = (
 
       console.log('【调试】提取出的核心数据：', data)
 
-      // 3. 赋值
-      state.tableData = isPageable ? data.list : data
+      // 3. 赋值（使用全新数组替换，确保 Vue 能检测到变化）
+      state.tableData = isPageable ? [...data.list] : [...data]
       const { total } = data
       state.pageable.total = isPageable ? total : 0
     } catch (error) {

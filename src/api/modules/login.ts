@@ -1,14 +1,12 @@
-import resquest from '@/api/index'
+import { service } from '@/api/index'
 
 export interface LoginParams {
   username: string
   password: string
 }
 
-export const loginApi = (params: LoginParams) => {
-  return resquest({
-    url: 'login',
-    method: 'POST',
-    data: params,
-  })
+export interface LoginResponse {
+  token: string
 }
+
+export const loginApi = (data: LoginParams) => service.post<LoginResponse>('/auth/login', data)

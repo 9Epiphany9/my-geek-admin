@@ -7,7 +7,7 @@
 
       <template #gender="scope">
         <el-tag>
-          {{ scope.row.status === 1 ? '♂ ' : '♀' }}
+          {{ scope.row.gender === 1 ? '♂ 男' : '♀ 女' }}
         </el-tag>
       </template>
 

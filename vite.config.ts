@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import { viteMockServe } from 'vite-plugin-mock'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
@@ -12,6 +13,12 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
+    // 本地 Mock 服务，便于在无后端时模拟接口
+    viteMockServe({
+      mockPath: 'src/mock',
+      logger: true,
+      watchFiles: true,
+    }),
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
