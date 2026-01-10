@@ -191,7 +191,7 @@ const switchStatus = (row: any) => {
 <style scoped>
 .table-content {
   height: 100%;
-  background: #fff;
+  background: var(--el-bg-color-overlay);
   padding: 20px;
   box-sizing: border-box;
 }

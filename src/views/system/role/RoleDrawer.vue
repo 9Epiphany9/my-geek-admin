@@ -27,11 +27,11 @@
 <script setup lang="ts">
 import { ref, nextTick } from 'vue'
 import { ElMessage, ElTree } from 'element-plus'
-import { getMenuList, getRoleMenu } from '@/api/modules/role'
+import { getMenuList, getRoleMenu, saveRoleMenu } from '@/api/modules/role'
 
 const drawerVisible = ref(false)
 const drawerProps = ref<any>({})
-const menuData = ref([]) // 树形菜单数据
+const menuData = ref<any[]>([]) // 树形菜单数据
 const treeRef = ref<InstanceType<typeof ElTree>>()
 
 // Tree 组件的配置项，告诉它哪个字段是名字，哪个是子级
@@ -44,38 +44,32 @@ const acceptParams = async (row: any) => {
   drawerProps.value = row
   drawerVisible.value = true
 
-  // 1. 获取所有菜单 (实际开发中这个可以在 mounted 里只请求一次，为了演示写在这里)
-  const { data: allMenus } = await getMenuList()
-  menuData.value = allMenus
+  // 1. 获取所有菜单（拦截器已脱壳，直接就是菜单数组）
+  const allMenus = (await getMenuList()) as unknown as any[]
+  menuData.value = allMenus || []
 
-  // 2. 获取当前角色已有的权限
-  const { data: roleMenus } = await getRoleMenu({ roleId: row.id })
+  // 2. 获取当前角色已有的权限（同样已脱壳，直接是 ID 数组）
+  const roleMenus = (await getRoleMenu({ roleId: row.id })) as unknown as string[]
 
   // 3. 回显勾选状态
-  // 必须用 nextTick，等待 Tree 渲染完毕
   nextTick(() => {
-    // 第二个参数 false 表示不包含父子联动逻辑（避免父节点勾选导致子节点全勾）
-    treeRef.value?.setCheckedKeys(roleMenus, false)
+    treeRef.value?.setCheckedKeys(roleMenus || [], false)
   })
 }
 
-const handleSubmit = () => {
-  // 1. 获取全选的节点 ID
-  const checkedKeys = treeRef.value?.getCheckedKeys()
-  // 2. 获取半选的节点 ID (父节点) -> 这一点非常重要！
-  // 比如你勾选了“用户管理”，它的父级“系统管理”通常也需要传给后端，否则侧边栏展不开
-  const halfCheckedKeys = treeRef.value?.getHalfCheckedKeys()
+const handleSubmit = async () => {
+  // 1. 获取全选与半选节点
+  const checkedKeys = (treeRef.value?.getCheckedKeys?.() as string[] | undefined) || []
+  const halfCheckedKeys = (treeRef.value?.getHalfCheckedKeys?.() as string[] | undefined) || []
 
-  // 合并所有 ID
-  const finalIds = [...checkedKeys!, ...halfCheckedKeys!]
+  // 2. 合并 ID，并去重
+  const finalIds = Array.from(new Set([...checkedKeys, ...halfCheckedKeys]))
 
-  console.log('【提交】发送给后端的菜单ID:', finalIds)
+  // 3. 调用保存接口
+  await saveRoleMenu({ roleId: drawerProps.value.id, menuIds: finalIds })
 
-  // 模拟调用保存接口
-  setTimeout(() => {
-    ElMessage.success('权限分配成功！')
-    drawerVisible.value = false
-  }, 500)
+  ElMessage.success('权限分配成功！')
+  drawerVisible.value = false
 }
 
 defineExpose({ acceptParams })

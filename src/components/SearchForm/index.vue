@@ -48,7 +48,7 @@ defineProps<SearchFormProps>()
 
 <style scoped>
 .search-form {
-  background-color: #fff;
+  background-color: var(--el-bg-color-overlay);
   padding: 18px 18px 0 18px;
   margin-bottom: 10px;
   border-radius: 4px; /* 稍微给点圆角 */

@@ -7,9 +7,6 @@
     >
       <div class="aside-logo">Geeker Admin</div>
       <el-menu
-        background-color="#191a20"
-        text-color="#bdbdc0"
-        active-text-color="#fff"
         :default-active="activeMenu"
         :router="true"
         :collapse="globalStore.isCollapse"
@@ -153,16 +150,16 @@ onMounted(() => {
 
 .username {
   font-size: 14px;
-  color: #333;
+  color: var(--el-text-color-primary);
 }
 .layout-main {
-  background-color: var(--el-bg-color); /* 给个灰色背景，显出层次感 */
+  background-color: var(--el-bg-color); /* 跟随主题 */
   padding: 10px;
 }
 
 .layout-aside {
-  background-color: #191a20;
-  color: white;
+  background-color: var(--el-bg-color-overlay);
+  color: var(--el-text-color-primary);
   display: flex;
   flex-direction: column;
   /* 3. 加上丝滑的过渡动画 */

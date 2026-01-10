@@ -73,15 +73,8 @@ onMounted(() => {
   useEcharts(myChart, option)
 })
 
-import { ElMessage } from 'element-plus'
-
-const copyText = ref('Geeker-Admin 牛逼')
-
-const handleBtnClick = () => {
-  ElMessage.warning('我被点击了！(500ms内只能触发一次)')
-}
 defineOptions({
-  name: 'Home',
+  name: 'HomePage',
 })
 </script>
 
@@ -95,8 +88,8 @@ defineOptions({
     display: flex;
     align-items: center;
     padding: 20px 40px;
-    background-color: #fff;
-    border-bottom: 1px solid #e4e7ed;
+    background-color: var(--el-bg-color-overlay);
+    border-bottom: 1px solid var(--el-border-color);
     margin-bottom: 20px;
     .header-img {
       width: 60px;
@@ -107,19 +100,19 @@ defineOptions({
     .title {
       font-size: 20px;
       font-weight: bold;
-      color: #303133;
+      color: var(--el-text-color-primary);
       margin-bottom: 10px;
     }
     .sub-title {
       font-size: 14px;
-      color: #909399;
+      color: var(--el-text-color-secondary);
     }
   }
 
   .bottom-box {
     flex: 1;
     display: flex;
-    background: #fff;
+    background: var(--el-bg-color-overlay);
     padding: 20px;
 
     .echarts-box {
@@ -132,7 +125,7 @@ defineOptions({
         font-size: 18px;
         font-weight: bold;
         margin-bottom: 15px;
-        color: #303133;
+        color: var(--el-text-color-primary);
       }
 
       .echarts-content {

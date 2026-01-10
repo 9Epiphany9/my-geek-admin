@@ -16,9 +16,18 @@ export const useGlobalStore = defineStore('global', () => {
     isDark.value = savedDark === 'true'
   }
 
+  // 将暗黑模式同步到 html 根节点的 class
+  const applyHtmlDarkClass = (val: boolean) => {
+    const html = document.documentElement as HTMLElement
+    html.setAttribute('class', val ? 'dark' : '')
+  }
+  // 初始化时同步一次
+  applyHtmlDarkClass(isDark.value)
+
   // 2. 监听 isDark 的变化，自动保存到 localStorage
   watch(isDark, (newValue) => {
     localStorage.setItem('global_isDark', newValue.toString())
+    applyHtmlDarkClass(newValue)
   })
 
   // 3. 修改方法（保持原来的接口不变）
